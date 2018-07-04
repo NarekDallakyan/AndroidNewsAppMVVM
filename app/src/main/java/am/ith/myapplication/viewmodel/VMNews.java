@@ -16,7 +16,7 @@ import retrofit2.Response;
 
 public class VMNews extends ViewModel {
 
-    private ApiService service;
+ //   private ApiService service;
     private MutableLiveData<AppResponse> appResponseMutableLiveData = new MutableLiveData<>();
 
     public VMNews() {
@@ -25,8 +25,8 @@ public class VMNews extends ViewModel {
 
     private void getJson() {
 
-        service = new ApiService();
-        service.createService().getAllProduct().enqueue(new Callback<AppResponse>() {
+   //     service = new ApiService();
+        ApiService.service.getNetworkService().getAllProduct().enqueue(new Callback<AppResponse>() {
             @Override
             public void onResponse(Call<AppResponse> call, Response<AppResponse> response) {
                 Observable.just(response.body())
