@@ -4,7 +4,7 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
 import am.ith.myapplication.model.AppResponse;
-import am.ith.myapplication.service.ApiService;
+import am.ith.myapplication.AppApplication;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -16,7 +16,7 @@ import retrofit2.Response;
 
 public class VMNews extends ViewModel {
 
- //   private ApiService service;
+ //   private AppApplication appApplication;
     private MutableLiveData<AppResponse> appResponseMutableLiveData = new MutableLiveData<>();
 
     public VMNews() {
@@ -25,8 +25,8 @@ public class VMNews extends ViewModel {
 
     private void getJson() {
 
-   //     service = new ApiService();
-        ApiService.service.getNetworkService().getAllProduct().enqueue(new Callback<AppResponse>() {
+   //     appApplication = new AppApplication();
+        AppApplication.appApplication.getNetworkService().getAllProduct().enqueue(new Callback<AppResponse>() {
             @Override
             public void onResponse(Call<AppResponse> call, Response<AppResponse> response) {
                 Observable.just(response.body())
