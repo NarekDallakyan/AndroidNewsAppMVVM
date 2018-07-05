@@ -1,7 +1,10 @@
 package am.ith.myapplication.viewmodel;
 
+import android.app.Application;
+import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
+import android.support.annotation.NonNull;
 
 import am.ith.myapplication.model.AppResponse;
 import am.ith.myapplication.AppApplication;
@@ -14,14 +17,16 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class VMNews extends ViewModel {
+public class VMNews extends AndroidViewModel {
 
  //   private AppApplication appApplication;
     private MutableLiveData<AppResponse> appResponseMutableLiveData = new MutableLiveData<>();
 
-    public VMNews() {
+    public VMNews(@NonNull Application application) {
+        super(application);
         getJson();
     }
+
 
     private void getJson() {
 

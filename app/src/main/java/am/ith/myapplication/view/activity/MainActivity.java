@@ -34,7 +34,17 @@ public class MainActivity extends AppCompatActivity {
     private void init(){
         recyclerView= (RecyclerView) findViewById(R.id.generalRecycleViewID);
     }
-
+//Rob?ahaesqan@ mihat ete karelia naes gnahates, esranc ogtagorcumy hima arden shat heshta bayc karevora haskanal vonca shxtum
+    // inch skzbunqov u aveli xory qan es orinaknery orinak observable pattern shat shutvanic ardiakana u shat a ogtagorcvum nai te
+    // vonca ashxatum inch terutiunner u aravelutiunner uni, irakanum himqy haskanalov piti helnes verev voch te mianqamic patrasti
+    // inch verabervum orinakin hamaria sax chish es arel, bayc eli em asum sranc ogtagorcely mi miec ban chi iranc havasar
+    // gorciq sarqelna hetaqrqrir, amen inch petq e himqic u xory usumnasirutiunov hasanas, gitem vor uzum es vraz vraz
+    // bayc tenc lav tex ches hasni
+    //ha hamadzayn em,bayc en orinak@ inch arelem bavakanin haskanalia,uxxaki nexvum em
+    //vor baner ka mexanikorena,u haskanum em vor sa der amenaskizbna,doc-ov em nayum sax,
+    //u docum etqanel parz chi grac,Rob jan,mihat xndri araj em kangnac,ete harmara mihat ases eti
+    //mi hat tiv petqa pahem recyclerviewi item-in click anelu vaxt,esqan@ arelem,mnacac@ tanjvumem vor esi
+    //ognes anenq aveli arag u hesh khaskanam
     private void getData() {
 
         vmNews.getMutableLiveData().observe(MainActivity.this, new Observer<AppResponse>() {
