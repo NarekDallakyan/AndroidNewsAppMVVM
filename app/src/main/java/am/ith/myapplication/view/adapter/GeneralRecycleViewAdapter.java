@@ -1,10 +1,12 @@
 package am.ith.myapplication.view.adapter;
 
 import android.annotation.SuppressLint;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -23,12 +25,15 @@ import com.bumptech.glide.request.target.Target;
 import java.util.Date;
 
 import am.ith.myapplication.R;
+import am.ith.myapplication.local.entity.SaveColorModel;
 import am.ith.myapplication.model.AppResponse;
+import am.ith.myapplication.viewmodel.VMColorSave;
 
 public class GeneralRecycleViewAdapter extends RecyclerView.Adapter<GeneralRecycleViewAdapter.MyViewHolder> {
 
     private AppResponse list;
     private Context context;
+    private VMColorSave vmColorSave;
 
 
     public GeneralRecycleViewAdapter(AppResponse list, Context context) {
@@ -75,7 +80,10 @@ public class GeneralRecycleViewAdapter extends RecyclerView.Adapter<GeneralRecyc
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                long itemPosition=position;
+                vmColorSave= ViewModelProviders.of((FragmentActivity) view.getContext()).get(VMColorSave.class);
+                SaveColorModel saveColorModel=new SaveColorModel(itemPosition);
+                vmColorSave.insert(saveColorModel);
             }
         });
 

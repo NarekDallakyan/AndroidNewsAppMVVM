@@ -7,10 +7,10 @@ import android.arch.persistence.room.PrimaryKey;
 
 @Entity(tableName = "color_table")
 public class SaveColorModel {
-    @PrimaryKey
+    @PrimaryKey( autoGenerate = true)
     private long id;
     @ColumnInfo(name = "position")
-    private long position;//esi petqa pahem
+    private long position;
 
     public SaveColorModel(long position) {
         this.position = position;
