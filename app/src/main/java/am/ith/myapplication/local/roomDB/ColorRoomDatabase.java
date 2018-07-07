@@ -5,17 +5,18 @@ import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 
 import am.ith.myapplication.AppApplication;
+import am.ith.myapplication.AppConstants;
 import am.ith.myapplication.local.dao.ColorSaveDao;
 import am.ith.myapplication.local.entity.SaveColorModel;
 
-@Database(entities = SaveColorModel.class, version = 1, exportSchema = false)
+@Database(entities = SaveColorModel.class, version = AppConstants.DB_VERSION, exportSchema = false)
 public abstract class ColorRoomDatabase extends RoomDatabase {
     private static ColorRoomDatabase INSTANCE;
 
     public static ColorRoomDatabase getInstance() {
         if (INSTANCE == null) {
             return INSTANCE = Room.
-                    databaseBuilder(AppApplication.appApplication.getApplicationContext(), ColorRoomDatabase.class, "abc")
+                    databaseBuilder(AppApplication.appApplication.getApplicationContext(), ColorRoomDatabase.class, AppConstants.DB_NAME)
                     .allowMainThreadQueries()
                     .build();
         } else {

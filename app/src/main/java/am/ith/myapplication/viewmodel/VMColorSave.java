@@ -2,11 +2,12 @@ package am.ith.myapplication.viewmodel;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
-import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.LiveData;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import am.ith.myapplication.local.dao.ColorSaveDao;
@@ -15,11 +16,13 @@ import am.ith.myapplication.local.roomDB.ColorRoomDatabase;
 
 public class VMColorSave extends AndroidViewModel {
     private ColorSaveDao colorSaveDao;
-    private MutableLiveData<List<SaveColorModel>> listMutableLiveData;
+    private List<SaveColorModel> listLiveData;
+
     public VMColorSave(@NonNull Application application) {
         super(application);
         ColorRoomDatabase colorRoomDatabase=ColorRoomDatabase.getInstance();
         colorSaveDao=colorRoomDatabase.colorSaveDao();
+        listLiveData = colorSaveDao.getAllColors();
     }
 
     public void insert (SaveColorModel saveColorModel) {
@@ -39,21 +42,10 @@ public class VMColorSave extends AndroidViewModel {
             mAsyncTaskDao.insert(params[0]);
             return null;
         }
+
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-    public MutableLiveData<List<SaveColorModel>> getListMutableLiveData() {
-        return listMutableLiveData;
+    public List<SaveColorModel> getListLiveData() {
+        return listLiveData;
     }
 }

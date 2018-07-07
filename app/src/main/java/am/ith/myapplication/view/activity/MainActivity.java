@@ -1,5 +1,6 @@
 package am.ith.myapplication.view.activity;
 
+import android.app.Application;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.support.annotation.Nullable;
@@ -7,9 +8,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 import am.ith.myapplication.R;
 import am.ith.myapplication.local.Engine;
+import am.ith.myapplication.local.entity.SaveColorModel;
 import am.ith.myapplication.model.AppResponse;
 import am.ith.myapplication.view.adapter.GeneralRecycleViewAdapter;
 import am.ith.myapplication.viewmodel.VMColorSave;
@@ -18,6 +25,7 @@ import am.ith.myapplication.viewmodel.VMNews;
 public class MainActivity extends AppCompatActivity {
 
     private VMNews vmNews;
+    private VMColorSave vmColorSave;
     private RecyclerView recyclerView;
     private GeneralRecycleViewAdapter adapter;
     private GridLayoutManager gridLayoutManager;
@@ -27,15 +35,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         init();
+        createViewModels();
+        getNetworkData();
+    }
+    private void createViewModels(){
         vmNews = ViewModelProviders.of(this).get(VMNews.class);
-        getData();
-
-
+       // vmColorSave=ViewModelProviders.of(this).get(VMColorSave.class);
     }
     private void init(){
         recyclerView= (RecyclerView) findViewById(R.id.generalRecycleViewID);
     }
-    private void getData() {
+    private void getNetworkData() {
 
         vmNews.getMutableLiveData().observe(MainActivity.this, new Observer<AppResponse>() {
             @Override
@@ -48,10 +58,19 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+    private List<SaveColorModel> getAllRoomData(){
+        List<SaveColorModel> list=new LinkedList<>();
+        vmColorSave=new VMColorSave((Application) getApplicationContext());
+        if (vmColorSave.getListLiveData()!=null){
+            list=vmColorSave.getListLiveData();
+        }
+
+        return list;
+    }
     private void serDataRecyclerViewAdapter(AppResponse appResponse){
         gridLayoutManager=new GridLayoutManager(this,1);
         recyclerView.setLayoutManager(gridLayoutManager);
-        adapter=new GeneralRecycleViewAdapter(appResponse,this);
+        adapter=new GeneralRecycleViewAdapter(appResponse,getAllRoomData(),this);
         recyclerView.setAdapter(adapter);
     }
 

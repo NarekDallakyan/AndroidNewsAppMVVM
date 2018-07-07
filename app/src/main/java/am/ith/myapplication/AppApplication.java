@@ -2,13 +2,12 @@ package am.ith.myapplication;
 
 
 import android.app.Application;
-import android.support.multidex.MultiDexApplication;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-import am.ith.myapplication.service.Service;
+import am.ith.myapplication.webservice.Service;
 import okhttp3.Cache;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;

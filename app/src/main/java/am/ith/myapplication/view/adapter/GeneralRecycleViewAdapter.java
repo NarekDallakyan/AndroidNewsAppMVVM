@@ -3,12 +3,14 @@ package am.ith.myapplication.view.adapter;
 import android.annotation.SuppressLint;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +25,8 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 import am.ith.myapplication.R;
 import am.ith.myapplication.local.entity.SaveColorModel;
@@ -30,15 +34,15 @@ import am.ith.myapplication.model.AppResponse;
 import am.ith.myapplication.viewmodel.VMColorSave;
 
 public class GeneralRecycleViewAdapter extends RecyclerView.Adapter<GeneralRecycleViewAdapter.MyViewHolder> {
-
     private AppResponse list;
     private Context context;
     private VMColorSave vmColorSave;
+    private List<SaveColorModel> linkedList;
 
-
-    public GeneralRecycleViewAdapter(AppResponse list, Context context) {
+    public GeneralRecycleViewAdapter(AppResponse list, List<SaveColorModel> linkedList,Context context) {
         this.list = list;
         this.context = context;
+        this.linkedList = linkedList;
     }
 
     @NonNull
@@ -51,7 +55,14 @@ public class GeneralRecycleViewAdapter extends RecyclerView.Adapter<GeneralRecyc
     @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
-
+        if (linkedList.size() > 0) {
+            for (int i = 0; i < linkedList.size(); i++) {
+                if (linkedList.get(i).getPosition() == getItemViewType(position)) {
+                    Log.i("modelID","  "+linkedList.get(i).getPosition()+"   Position  "+position);
+                    holder.cardView.setCardBackgroundColor(Color.RED);
+                }
+            }
+        }
         //convert date
         Date date = new Date(list.getMetadata().get(position).date);
         holder.category.setText(list.getMetadata().get(position).category);
