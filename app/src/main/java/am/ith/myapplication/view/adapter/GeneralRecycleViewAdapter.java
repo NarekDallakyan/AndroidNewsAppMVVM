@@ -3,6 +3,7 @@ package am.ith.myapplication.view.adapter;
 import android.annotation.SuppressLint;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
@@ -29,8 +30,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 import am.ith.myapplication.R;
+import am.ith.myapplication.local.Engine;
 import am.ith.myapplication.local.entity.SaveColorModel;
 import am.ith.myapplication.model.AppResponse;
+import am.ith.myapplication.view.activity.DetailsActivity;
 import am.ith.myapplication.viewmodel.VMColorSave;
 
 public class GeneralRecycleViewAdapter extends RecyclerView.Adapter<GeneralRecycleViewAdapter.MyViewHolder> {
@@ -39,7 +42,7 @@ public class GeneralRecycleViewAdapter extends RecyclerView.Adapter<GeneralRecyc
     private VMColorSave vmColorSave;
     private List<SaveColorModel> linkedList;
 
-    public GeneralRecycleViewAdapter(AppResponse list, List<SaveColorModel> linkedList,Context context) {
+    public GeneralRecycleViewAdapter(AppResponse list, List<SaveColorModel> linkedList, Context context) {
         this.list = list;
         this.context = context;
         this.linkedList = linkedList;
@@ -52,23 +55,29 @@ public class GeneralRecycleViewAdapter extends RecyclerView.Adapter<GeneralRecyc
         return new MyViewHolder(view);
     }
 
-    @SuppressLint("ResourceAsColor")
-    @Override
-    public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
+    private void changeItemColor(CardView cardView, int itemPosition) {
         if (linkedList.size() > 0) {
             for (int i = 0; i < linkedList.size(); i++) {
-                if (linkedList.get(i).getPosition() == getItemViewType(position)) {
-                    Log.i("modelID","  "+linkedList.get(i).getPosition()+"   Position  "+position);
-                    holder.cardView.setCardBackgroundColor(Color.RED);
+                if (linkedList.get(i).getPosition() == getItemViewType(itemPosition)) {
+                    Log.i("modelID", "  " + linkedList.get(i).getPosition() + "   Position  " + itemPosition);
+                    cardView.setCardBackgroundColor(Color.RED);
                 }
             }
         }
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
+
+        //change item background color
+        changeItemColor(holder.cardView, position);
         //convert date
         Date date = new Date(list.getMetadata().get(position).date);
         holder.category.setText(list.getMetadata().get(position).category);
         holder.title.setText(list.getMetadata().get(position).title);
         holder.date.setText(date.toString());
 
+        //download image
         Glide
                 .with(context)
                 .load(list.getMetadata().get(position).coverPhotoUrl)
@@ -86,15 +95,20 @@ public class GeneralRecycleViewAdapter extends RecyclerView.Adapter<GeneralRecyc
                     }
                 })
                 .into(holder.coverPhotoUrl);
-        int id = position;
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                long itemPosition=position;
-                vmColorSave= ViewModelProviders.of((FragmentActivity) view.getContext()).get(VMColorSave.class);
-                SaveColorModel saveColorModel=new SaveColorModel(itemPosition);
+                //save item position
+                long itemPosition = position;
+                vmColorSave = ViewModelProviders.of((FragmentActivity) view.getContext()).get(VMColorSave.class);
+                SaveColorModel saveColorModel = new SaveColorModel(itemPosition);
                 vmColorSave.insert(saveColorModel);
+
+                //go to Details Activity
+                Intent intent = new Intent(view.getContext(), DetailsActivity.class);
+                Engine.getInstance().setMetadata(list.getMetadata().get(position));
+                view.getContext().startActivity(intent);
             }
         });
 

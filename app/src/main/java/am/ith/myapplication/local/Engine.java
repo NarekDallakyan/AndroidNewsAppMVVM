@@ -7,6 +7,15 @@ import am.ith.myapplication.model.AppResponse;
 public class Engine {
     private static Engine engine=null;
     private List<AppResponse.Metadatum> appResponse;
+    private AppResponse.Metadatum metadata;
+
+    public AppResponse.Metadatum getMetadata() {
+        return metadata;
+    }
+
+    public void setMetadata(AppResponse.Metadatum metadata) {
+        this.metadata = metadata;
+    }
 
     public List<AppResponse.Metadatum> getAppResponse() {
         return appResponse;
