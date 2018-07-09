@@ -56,9 +56,10 @@ public class GeneralRecycleViewAdapter extends RecyclerView.Adapter<GeneralRecyc
     }
 
     private void changeItemColor(CardView cardView, int itemPosition) {
-        if (linkedList.size() > 0) {
+        if (linkedList!=null) {
+            Log.i("nullchii","DFAEFCEDFE");
             for (int i = 0; i < linkedList.size(); i++) {
-                if (linkedList.get(i).getPosition() == getItemViewType(itemPosition)) {
+                if (linkedList.get(i).getPosition() == itemPosition) {
                     Log.i("modelID", "  " + linkedList.get(i).getPosition() + "   Position  " + itemPosition);
                     cardView.setCardBackgroundColor(Color.RED);
                 }

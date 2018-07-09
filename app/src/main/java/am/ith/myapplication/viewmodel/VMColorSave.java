@@ -3,26 +3,30 @@ package am.ith.myapplication.viewmodel;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.ViewModel;
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
 import android.util.Log;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import am.ith.myapplication.local.dao.ColorSaveDao;
 import am.ith.myapplication.local.entity.SaveColorModel;
 import am.ith.myapplication.local.roomDB.ColorRoomDatabase;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 
 public class VMColorSave extends AndroidViewModel {
     private ColorSaveDao colorSaveDao;
-    private List<SaveColorModel> listLiveData;
+    private LiveData<List<SaveColorModel>> listLiveData;
 
-    public VMColorSave(@NonNull Application application) {
+    public VMColorSave(Application application) {
         super(application);
         ColorRoomDatabase colorRoomDatabase=ColorRoomDatabase.getInstance();
         colorSaveDao=colorRoomDatabase.colorSaveDao();
-        listLiveData = colorSaveDao.getAllColors();
+        if (listLiveData==null) {
+            listLiveData = colorSaveDao.getAllColors();
+        }
     }
 
     public void insert (SaveColorModel saveColorModel) {
@@ -44,8 +48,7 @@ public class VMColorSave extends AndroidViewModel {
         }
 
     }
-
-    public List<SaveColorModel> getListLiveData() {
+    public LiveData<List<SaveColorModel>> getListLiveData() {
         return listLiveData;
     }
 }

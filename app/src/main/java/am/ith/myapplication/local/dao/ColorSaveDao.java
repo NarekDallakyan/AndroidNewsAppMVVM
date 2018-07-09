@@ -1,6 +1,7 @@
 package am.ith.myapplication.local.dao;
 
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
@@ -16,6 +17,6 @@ public interface ColorSaveDao {
     void insert(SaveColorModel saveColorModel);
 
     @Query("SELECT * FROM color_table")
-    List<SaveColorModel> getAllColors();
+    LiveData<List<SaveColorModel>> getAllColors();
 
 }
